@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="115.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="G_Earth.GPlants.GPlants">
+  <columnConstraints>
+    <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints maxHeight="169.0" minHeight="10.0" prefHeight="72.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="54.0" minHeight="10.0" prefHeight="28.0" vgrow="SOMETIMES" />
+  </rowConstraints>
+   <children>
+      <Button fx:id="btnTreat" disable="true" onAction="#click_btnTreat" mnemonicParsing="false" prefHeight="63.0" prefWidth="81.0" text="TREAT!" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS"></Button>
+      <CheckBox fx:id="fieldOnlyMy" mnemonicParsing="false" selected="true" text="Only my plants" GridPane.rowIndex="1" />
+      <Label mouseTransparent="true" fx:id="labelSize" text="" translateY="17.0" />
+   </children>
+</GridPane>
