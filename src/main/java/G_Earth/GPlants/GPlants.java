@@ -6,6 +6,7 @@ import java.util.concurrent.TimeUnit;
 
 import gearth.extensions.ExtensionForm;
 import gearth.extensions.ExtensionInfo;
+import gearth.extensions.extra.harble.HashSupport;
 import gearth.protocol.HMessage;
 import gearth.protocol.HPacket;
 import javafx.application.Platform;
@@ -34,6 +35,8 @@ public class GPlants extends ExtensionForm {
 	private String userName;
 	private Map<Integer, String> plants = new HashMap<>();
 
+    private HashSupport hashSupport;
+
 	public static void main(String[] args) {
 		runExtensionForm(args, GPlants.class);
 	}
@@ -55,11 +58,12 @@ public class GPlants extends ExtensionForm {
 	
 	@Override
 	protected void initExtension() {
-		intercept(HMessage.Side.TOCLIENT, 163, x -> handleEnterRoom(x));
-		intercept(HMessage.Side.TOCLIENT, 2625, x -> handleUserData(x));
-		intercept(HMessage.Side.TOCLIENT, 3989, x -> handleRoomUsers(x));
+        hashSupport = new HashSupport(this);
+        hashSupport.intercept(HMessage.Side.TOCLIENT, "FloorPlanEditorDoorSettings", x -> handleEnterRoom(x));
+        hashSupport.intercept(HMessage.Side.TOCLIENT, "UserData", x -> handleUserData(x));
+        hashSupport.intercept(HMessage.Side.TOCLIENT, "RoomUsers", x -> handleRoomUsers(x));
 		
-		sendToServer(new HPacket(3009)); // For user data
+        hashSupport.sendToServer("RequestUserData"); // For user data
 	}
 	
 	private void handleEnterRoom(HMessage message) {
@@ -154,8 +158,8 @@ public class GPlants extends ExtensionForm {
 		    String ownerName = entry.getValue();
 		    
 		    if (!onlyMy || (onlyMy && ownerName == userName)) {
-				String packet = "{l}{u:2593}{i:"+plantId+"}";
-				sendToServer(new HPacket(packet));
+				//String packet = "{l}{u:2593}{i:"+plantId+"}";
+				hashSupport.sendToServer("ScratchPet", plantId);
 				try {
 					TimeUnit.SECONDS.sleep(1);;
 				} catch (InterruptedException e) {
