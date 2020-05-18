@@ -31,7 +31,6 @@ public class GPlants extends ExtensionForm {
 	public Button btnTreat;
 	public Label labelSize;
 	
-	private int userUId;
 	private String userName;
 	private Map<Integer, String> plants = new HashMap<>();
 
@@ -59,9 +58,9 @@ public class GPlants extends ExtensionForm {
 	@Override
 	protected void initExtension() {
         hashSupport = new HashSupport(this);
-        hashSupport.intercept(HMessage.Side.TOCLIENT, "FloorPlanEditorDoorSettings", x -> handleEnterRoom(x));
-        hashSupport.intercept(HMessage.Side.TOCLIENT, "UserData", x -> handleUserData(x));
-        hashSupport.intercept(HMessage.Side.TOCLIENT, "RoomUsers", x -> handleRoomUsers(x));
+        hashSupport.intercept(HMessage.Direction.TOCLIENT, "FloorPlanEditorDoorSettings", x -> handleEnterRoom(x));
+        hashSupport.intercept(HMessage.Direction.TOCLIENT, "UserData", x -> handleUserData(x));
+        hashSupport.intercept(HMessage.Direction.TOCLIENT, "RoomUsers", x -> handleRoomUsers(x));
 		
         hashSupport.sendToServer("RequestUserData"); // For user data
 	}
@@ -72,7 +71,7 @@ public class GPlants extends ExtensionForm {
 	
 	private void handleUserData(HMessage message) {
 		HPacket packet = message.getPacket();
-		userUId = packet.readInteger();
+		packet.readInteger();
 		userName = packet.readString();
 	}
 	
